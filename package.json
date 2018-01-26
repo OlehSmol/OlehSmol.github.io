@@ -1,0 +1,37 @@
+{
+  "name": "d3js_projects",
+  "version": "1.0.0",
+  "description": "<a href=\"https://d3js.org\"><img src=\"https://d3js.org/logo.svg\" align=\"left\" hspace=\"10\" vspace=\"6\"></a>",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "d3": "^4.12.2",
+    "d3-geo": "^1.9.1",
+    "express-handlebars": "^3.0.0",
+    "handlebars-loader": "^1.6.0",
+    "handlebars.numeral": "^0.2.0",
+    "install": "^0.10.2",
+    "jquery": "^3.2.1",
+    "luxon": "0.0.20",
+    "normalize.css": "^7.0.0",
+    "ramda": "^0.25.0",
+    "topojson": "^3.0.2"
+  },
+  "devDependencies": {
+    "autoprefixer-loader": "^3.2.0",
+    "css-loader": "^0.26.4",
+    "extract-text-webpack-plugin": "^3.0.0-rc.2",
+    "handlebars": "^4.0.11",
+    "less": "^2.7.3",
+    "less-loader": "^4.0.5",
+    "postcss-loader": "^1.2.2",
+    "sass-loader": "^4.1.1",
+    "style-loader": "^0.13.2",
+    "webpack": "^3.10.0"
+  }
+}

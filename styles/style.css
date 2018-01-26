@@ -1,0 +1,53 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+svg {
+    display: block;
+    margin: 0 auto;
+}
+
+.tabs {
+    width: 100%;
+    min-width: 960px;
+    background-color: #f1f1f1;
+}
+
+.tabs__tab {
+    float: left;
+    padding: 10px 30px;
+    font-size: 17px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.tabs__tab-active {
+    background-color: #ccc;
+}
+
+.tabs__tab:hover {
+    background-color: #ddd;
+}
+
+.tabs__years-nav {
+    float: right;
+    padding: 0 20px;
+}
+
+.tabs__year, .tabs__year-left, .tabs__year-right{
+    float: left;
+    padding: 10px 10px;
+}
+
+.tabs__year-left, .tabs__year-right{
+    cursor: pointer;
+}
+
+.tabs__content{
+    clear: left;
+    background-color: white;
+    width: 100%;
+    border-top: 1px solid #ccc;
+    box-sizing: border-box;
+}
