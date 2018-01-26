@@ -19,10 +19,10 @@ function drawMap(period) {
         .await(ready);
 
     function ready(error, map_data, clusters) {
-        let populationById = {};
+        let clusterById = {};
         console.log(clusters)
-        clusters.data.forEach(function(d) { populationById[d.country] = + d[period].cluster;});
-        map_data.features.forEach(function(d) { populationById[d.id] ? d.cluster = populationById[d.id] : d.cluster = -1 });
+        clusters.data.forEach(function(d) { clusterById[d.country] = + d[period].cluster;});
+        map_data.features.forEach(function(d) { clusterById[d.id] ? d.cluster = clusterById[d.id] : d.cluster = -1 });
         d3.selectAll("svg .map path")
             .data(map_data.features)
             .transition()
@@ -45,11 +45,16 @@ function initMap(period) {
         .defer(d3.json, "/data/data.json")
         .await(ready);
 
-    function ready(error, data, population) {
-        let populationById = {};
-        console.log(population)
-        population.data.forEach(function(d) { populationById[d.country] = + d[period].cluster;});
-        data.features.forEach(function(d) { populationById[d.id] ? d.cluster = populationById[d.id] : d.cluster = -1 });
+    function ready(error, data, clusters) {
+        let clusterById = {};
+        console.log(clusters)
+        clusters.data.forEach(function(d) { clusterById[d.country] = + d[period].cluster;});
+        data.features.forEach(function(d) { clusterById[d.id] ? d.cluster = clusterById[d.id] : d.cluster = -1 });
+
+
+        var tooltip = d3.select("body").append("div")
+            .attr("class", "tooltip")
+            .style("opacity", 0);
 
         svg.append("g")
             .attr("class", "countries")
@@ -63,6 +68,31 @@ function initMap(period) {
             .style("opacity",0.8)
             .style("stroke","white")
             .style('stroke-width', 0.3)
+            .on('mouseover',function(d){
+                tooltip.transition()
+                    .duration(200)
+                    .style("opacity", .9);
+
+                d3.select(this)
+                    .style("opacity", 1)
+                    .style("stroke","white")
+                    .style("stroke-width",3);
+            })
+            .on("mousemove", function(d){
+                tooltip.html(d.id)
+                    .style("left", (d3.event.pageX) + "px")
+                    .style("top", (d3.event.pageY - 28) + "px");
+            })
+            .on('mouseout', function(d){
+                tooltip.transition()
+                    .duration(500)
+                    .style("opacity", 0);
+
+                d3.select(this)
+                    .style("opacity", 0.8)
+                    .style("stroke","white")
+                    .style("stroke-width",0.3);
+            });
     }
 }
 

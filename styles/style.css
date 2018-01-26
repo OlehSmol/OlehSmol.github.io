@@ -51,3 +51,15 @@ svg {
     border-top: 1px solid #ccc;
     box-sizing: border-box;
 }
+
+.tooltip{
+    position: absolute;
+    line-height: 1.5;
+    font-weight: 600;
+    font-family: Arial;
+    padding: 6px;
+    background: rgba(0, 0, 0, 0.8);
+    color: #FFA500;
+    border-radius: 2px;
+    pointer-events: none;
+}

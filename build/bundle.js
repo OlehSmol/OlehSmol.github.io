@@ -2638,8 +2638,8 @@ Cardinal.prototype = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_d3_format__ = __webpack_require__(71);
 /* unused harmony namespace reexport */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13_d3_geo__ = __webpack_require__(323);
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_13_d3_geo__["a"]; });
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_13_d3_geo__["b"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_13_d3_geo__["a"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "c", function() { return __WEBPACK_IMPORTED_MODULE_13_d3_geo__["b"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14_d3_hierarchy__ = __webpack_require__(351);
 /* unused harmony namespace reexport */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_15_d3_interpolate__ = __webpack_require__(5);
@@ -2651,17 +2651,18 @@ Cardinal.prototype = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_18_d3_quadtree__ = __webpack_require__(69);
 /* unused harmony namespace reexport */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_19_d3_queue__ = __webpack_require__(380);
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "d", function() { return __WEBPACK_IMPORTED_MODULE_19_d3_queue__["a"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "e", function() { return __WEBPACK_IMPORTED_MODULE_19_d3_queue__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_20_d3_random__ = __webpack_require__(383);
 /* unused harmony namespace reexport */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_21_d3_request__ = __webpack_require__(388);
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "c", function() { return __WEBPACK_IMPORTED_MODULE_21_d3_request__["a"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "d", function() { return __WEBPACK_IMPORTED_MODULE_21_d3_request__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_22_d3_scale__ = __webpack_require__(395);
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "e", function() { return __WEBPACK_IMPORTED_MODULE_22_d3_scale__["a"]; });
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "f", function() { return __WEBPACK_IMPORTED_MODULE_22_d3_scale__["b"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "f", function() { return __WEBPACK_IMPORTED_MODULE_22_d3_scale__["a"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "g", function() { return __WEBPACK_IMPORTED_MODULE_22_d3_scale__["b"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_23_d3_selection__ = __webpack_require__(1);
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "g", function() { return __WEBPACK_IMPORTED_MODULE_23_d3_selection__["f"]; });
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "h", function() { return __WEBPACK_IMPORTED_MODULE_23_d3_selection__["g"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_23_d3_selection__["b"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "h", function() { return __WEBPACK_IMPORTED_MODULE_23_d3_selection__["f"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "i", function() { return __WEBPACK_IMPORTED_MODULE_23_d3_selection__["g"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_24_d3_shape__ = __webpack_require__(428);
 /* unused harmony namespace reexport */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_25_d3_time__ = __webpack_require__(44);
@@ -22728,28 +22729,28 @@ function nopropagation() {
 
 let width = 960, height = 570;
 
-let color = __WEBPACK_IMPORTED_MODULE_0_d3__["f" /* scaleThreshold */]()
+let color = __WEBPACK_IMPORTED_MODULE_0_d3__["g" /* scaleThreshold */]()
     .domain([0,1,2,3,4,5,6])
     .range(["silver", "black", "yellow", "brown", "orange", "blue", "green"]);
 
-let projection = __WEBPACK_IMPORTED_MODULE_0_d3__["a" /* geoMercator */]()
+let projection = __WEBPACK_IMPORTED_MODULE_0_d3__["b" /* geoMercator */]()
     .scale(130)
     .translate( [width / 2, height / 1.5]);
 
-let path = __WEBPACK_IMPORTED_MODULE_0_d3__["b" /* geoPath */]().projection(projection);
+let path = __WEBPACK_IMPORTED_MODULE_0_d3__["c" /* geoPath */]().projection(projection);
 
 function drawMap(period) {
-    __WEBPACK_IMPORTED_MODULE_0_d3__["d" /* queue */]()
-        .defer(__WEBPACK_IMPORTED_MODULE_0_d3__["c" /* json */], "/data/world_countries.json")
-        .defer(__WEBPACK_IMPORTED_MODULE_0_d3__["c" /* json */], "/data/data.json")
+    __WEBPACK_IMPORTED_MODULE_0_d3__["e" /* queue */]()
+        .defer(__WEBPACK_IMPORTED_MODULE_0_d3__["d" /* json */], "/data/world_countries.json")
+        .defer(__WEBPACK_IMPORTED_MODULE_0_d3__["d" /* json */], "/data/data.json")
         .await(ready);
 
     function ready(error, map_data, clusters) {
-        let populationById = {};
+        let clusterById = {};
         console.log(clusters)
-        clusters.data.forEach(function(d) { populationById[d.country] = + d[period].cluster;});
-        map_data.features.forEach(function(d) { populationById[d.id] ? d.cluster = populationById[d.id] : d.cluster = -1 });
-        __WEBPACK_IMPORTED_MODULE_0_d3__["h" /* selectAll */]("svg .map path")
+        clusters.data.forEach(function(d) { clusterById[d.country] = + d[period].cluster;});
+        map_data.features.forEach(function(d) { clusterById[d.id] ? d.cluster = clusterById[d.id] : d.cluster = -1 });
+        __WEBPACK_IMPORTED_MODULE_0_d3__["i" /* selectAll */]("svg .map path")
             .data(map_data.features)
             .transition()
             .delay(500)
@@ -22759,23 +22760,28 @@ function drawMap(period) {
 }
 
 function initMap(period) {
-    let svg = __WEBPACK_IMPORTED_MODULE_0_d3__["g" /* select */](".tabs__content")
+    let svg = __WEBPACK_IMPORTED_MODULE_0_d3__["h" /* select */](".tabs__content")
         .append("svg")
         .attr("width", width)
         .attr("height", height)
         .append('g')
         .attr('class', 'map');
     console.log(svg)
-    __WEBPACK_IMPORTED_MODULE_0_d3__["d" /* queue */]()
-        .defer(__WEBPACK_IMPORTED_MODULE_0_d3__["c" /* json */], "/data/world_countries.json")
-        .defer(__WEBPACK_IMPORTED_MODULE_0_d3__["c" /* json */], "/data/data.json")
+    __WEBPACK_IMPORTED_MODULE_0_d3__["e" /* queue */]()
+        .defer(__WEBPACK_IMPORTED_MODULE_0_d3__["d" /* json */], "/data/world_countries.json")
+        .defer(__WEBPACK_IMPORTED_MODULE_0_d3__["d" /* json */], "/data/data.json")
         .await(ready);
 
-    function ready(error, data, population) {
-        let populationById = {};
-        console.log(population)
-        population.data.forEach(function(d) { populationById[d.country] = + d[period].cluster;});
-        data.features.forEach(function(d) { populationById[d.id] ? d.cluster = populationById[d.id] : d.cluster = -1 });
+    function ready(error, data, clusters) {
+        let clusterById = {};
+        console.log(clusters)
+        clusters.data.forEach(function(d) { clusterById[d.country] = + d[period].cluster;});
+        data.features.forEach(function(d) { clusterById[d.id] ? d.cluster = clusterById[d.id] : d.cluster = -1 });
+
+
+        var tooltip = __WEBPACK_IMPORTED_MODULE_0_d3__["h" /* select */]("body").append("div")
+            .attr("class", "tooltip")
+            .style("opacity", 0);
 
         svg.append("g")
             .attr("class", "countries")
@@ -22789,6 +22795,31 @@ function initMap(period) {
             .style("opacity",0.8)
             .style("stroke","white")
             .style('stroke-width', 0.3)
+            .on('mouseover',function(d){
+                tooltip.transition()
+                    .duration(200)
+                    .style("opacity", .9);
+
+                __WEBPACK_IMPORTED_MODULE_0_d3__["h" /* select */](this)
+                    .style("opacity", 1)
+                    .style("stroke","white")
+                    .style("stroke-width",3);
+            })
+            .on("mousemove", function(d){
+                tooltip.html(d.id)
+                    .style("left", (__WEBPACK_IMPORTED_MODULE_0_d3__["a" /* event */].pageX) + "px")
+                    .style("top", (__WEBPACK_IMPORTED_MODULE_0_d3__["a" /* event */].pageY - 28) + "px");
+            })
+            .on('mouseout', function(d){
+                tooltip.transition()
+                    .duration(500)
+                    .style("opacity", 0);
+
+                __WEBPACK_IMPORTED_MODULE_0_d3__["h" /* select */](this)
+                    .style("opacity", 0.8)
+                    .style("stroke","white")
+                    .style("stroke-width",0.3);
+            });
     }
 }
 
@@ -22806,30 +22837,30 @@ function initMap(period) {
 
 let width = 960, height = 600;
 
-const scaleX = __WEBPACK_IMPORTED_MODULE_0_d3__["e" /* scaleLinear */]()
+const scaleX = __WEBPACK_IMPORTED_MODULE_0_d3__["f" /* scaleLinear */]()
     .domain([-150, 280])
     .range([  0, width]);
 
-const scaleY = __WEBPACK_IMPORTED_MODULE_0_d3__["e" /* scaleLinear */]()
+const scaleY = __WEBPACK_IMPORTED_MODULE_0_d3__["f" /* scaleLinear */]()
     .domain([-170, 180])
     .range([height, 0]);
 
-let color = __WEBPACK_IMPORTED_MODULE_0_d3__["f" /* scaleThreshold */]()
+let color = __WEBPACK_IMPORTED_MODULE_0_d3__["g" /* scaleThreshold */]()
     .domain([0,1,2,3,4,5,6])
     .range(["silver", "black", "yellow", "brown", "orange", "blue", "green"]);
 
 function drawPCA(period) {
-    __WEBPACK_IMPORTED_MODULE_0_d3__["c" /* json */]("/data/data.json", (err, data) => {
+    __WEBPACK_IMPORTED_MODULE_0_d3__["d" /* json */]("/data/data.json", (err, data) => {
         render(data.data);
 });
 
     const render = (data) => {
-        __WEBPACK_IMPORTED_MODULE_0_d3__["h" /* selectAll */]("svg .country")
+        __WEBPACK_IMPORTED_MODULE_0_d3__["i" /* selectAll */]("svg .country")
             .transition()
             .duration(3000)
             .attr("transform", d => "translate(" +  scaleX(d[period].x)  + ',' +  scaleY(d[period].y)+ ")");
 
-        __WEBPACK_IMPORTED_MODULE_0_d3__["h" /* selectAll */]("svg .country circle")
+        __WEBPACK_IMPORTED_MODULE_0_d3__["i" /* selectAll */]("svg .country circle")
             .data(data)
             .transition()
             .duration(3000)
@@ -22838,12 +22869,12 @@ function drawPCA(period) {
 }
 
 function initPCA(period) {
-    const svg = __WEBPACK_IMPORTED_MODULE_0_d3__["g" /* select */](".tabs__content")
+    const svg = __WEBPACK_IMPORTED_MODULE_0_d3__["h" /* select */](".tabs__content")
         .append("svg")
         .attr("width", width)
         .attr("height", height)
 
-    __WEBPACK_IMPORTED_MODULE_0_d3__["c" /* json */]("/data/data.json", (err, data) => {
+    __WEBPACK_IMPORTED_MODULE_0_d3__["d" /* json */]("/data/data.json", (err, data) => {
         render(data.data);
 });
 
