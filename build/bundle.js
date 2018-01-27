@@ -22745,7 +22745,8 @@ let width = 960, height = 570;
 
 let color = __WEBPACK_IMPORTED_MODULE_0_d3__["g" /* scaleThreshold */]()
     .domain([0,1,2,3,4,5,6])
-    .range(["silver", "black", "yellow", "brown", "orange", "blue", "green"]);
+    .range(["silver", "#8D7019",  "#003D2E", "#5B105B", "#8D5119", "#FFAA00", "#84182B"]);
+
 
 let projection = __WEBPACK_IMPORTED_MODULE_0_d3__["b" /* geoMercator */]()
     .scale(130)
@@ -22861,7 +22862,7 @@ const scaleY = __WEBPACK_IMPORTED_MODULE_0_d3__["f" /* scaleLinear */]()
 
 let color = __WEBPACK_IMPORTED_MODULE_0_d3__["g" /* scaleThreshold */]()
     .domain([0,1,2,3,4,5,6])
-    .range(["silver", "black", "yellow", "brown", "orange", "blue", "green"]);
+    .range(["silver", "#8D7019",  "#003D2E", "#5B105B", "#8D5119", "#FFAA00", "#84182B"]);
 
 function drawPCA(period) {
     __WEBPACK_IMPORTED_MODULE_0_d3__["d" /* json */]("/data/data.json", (err, data) => {
