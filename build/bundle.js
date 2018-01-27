@@ -9576,17 +9576,30 @@ function changeTab(event) {
 }
 
 function changeYear(event) {
-    if(event.currentTarget.classList.contains("tabs__year-left") && currentYear > 0){
+    if(event.currentTarget === year_left && currentYear > 0){
         currentYear--;
-    } else if (event.currentTarget.classList.contains("tabs__year-right")
-        && currentYear < DATA_PERIODS.length - 1) {
+    } else if (event.currentTarget === year_right && currentYear < DATA_PERIODS.length - 1) {
         currentYear++;
     }
+
+    if(currentYear === 0){
+        year_left.classList.add("tabs__year-button-hidden");
+    } else {
+        year_left.classList.remove("tabs__year-button-hidden");
+    }
+
+    if(currentYear === DATA_PERIODS.length - 1){
+        year_right.classList.add("tabs__year-button-hidden");
+    } else {
+        year_right.classList.remove("tabs__year-button-hidden");
+    }
+
     if(currentTab === "Map"){
         __WEBPACK_IMPORTED_MODULE_1__map__["a" /* default */].drawMap(DATA_PERIODS[currentYear]);
     } else if (currentTab === "PCA"){
         __WEBPACK_IMPORTED_MODULE_2__pca__["a" /* default */].drawPCA(DATA_PERIODS[currentYear]);
     }
+    console.log(currentYear)
     year.innerHTML = DATA_PERIODS[currentYear]
 }
 
@@ -9620,7 +9633,8 @@ year_nav.innerHTML = "";
 tabs.appendChild(year_nav);
 
 let year_left = document.createElement("div");
-year_left.classList.add("tabs__year-left");
+year_left.classList.add("tabs__year-button-left");
+year_left.classList.add("tabs__year-button-hidden");
 year_left.innerHTML = "&lt;";
 year_left.addEventListener("click", changeYear);
 year_nav.appendChild(year_left);
@@ -9631,7 +9645,7 @@ year.innerHTML = DATA_PERIODS[currentYear];
 year_nav.appendChild(year);
 
 let year_right = document.createElement("div");
-year_right.classList.add("tabs__year-right");
+year_right.classList.add("tabs__year-button-right");
 year_right.innerHTML = "&gt;";
 year_right.addEventListener("click", changeYear);
 year_nav.appendChild(year_right);

@@ -35,13 +35,19 @@ svg {
     padding: 0 20px;
 }
 
-.tabs__year, .tabs__year-left, .tabs__year-right{
+.tabs__year, .tabs__year-button-left, .tabs__year-button-right{
     float: left;
     padding: 10px 10px;
 }
 
-.tabs__year-left, .tabs__year-right{
+.tabs__year-button-left, .tabs__year-button-right{
     cursor: pointer;
+    font-weight: 600;
+}
+
+.tabs__year-button-hidden{
+    cursor: default;
+    opacity: 0;
 }
 
 .tabs__content{
