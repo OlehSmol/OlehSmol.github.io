@@ -1,6 +1,6 @@
 import * as d3 from "d3";
 
-let width = 960, height = 600;
+let width = 960, height = 570;
 
 const scaleX = d3.scaleLinear()
     .domain([-150, 280])

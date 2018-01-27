@@ -22850,7 +22850,7 @@ function initMap(period) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_d3__ = __webpack_require__(90);
 
 
-let width = 960, height = 600;
+let width = 960, height = 570;
 
 const scaleX = __WEBPACK_IMPORTED_MODULE_0_d3__["f" /* scaleLinear */]()
     .domain([-150, 280])
