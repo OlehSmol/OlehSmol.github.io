@@ -9565,10 +9565,10 @@ function changeTab(event) {
         tabs[i].className = tabs[i].className.replace("tabs__tab-active", "");
     }
     tabs_content.innerHTML = "";
-    if(event.currentTarget.innerHTML == "Map"){
+    if(event.currentTarget.innerHTML === "Map"){ // <== TODO change
         __WEBPACK_IMPORTED_MODULE_1__map__["a" /* default */].initMap(DATA_PERIODS[currentYear]);
         currentTab = "Map";
-    } else if (event.currentTarget.innerHTML == "PCA") {
+    } else if (event.currentTarget.innerHTML === "PCA") {
         __WEBPACK_IMPORTED_MODULE_2__pca__["a" /* default */].initPCA(DATA_PERIODS[currentYear]);
         currentTab = "PCA";
     }
@@ -9589,6 +9589,7 @@ function changeYear(event) {
     }
 
     if(currentYear === DATA_PERIODS.length - 1){
+        //TODO year_right.classList.toggle()
         year_right.classList.add("tabs__year-button-hidden");
     } else {
         year_right.classList.remove("tabs__year-button-hidden");
@@ -9614,13 +9615,13 @@ document.body.appendChild(tabs);
 let map_tab = document.createElement("div");
 map_tab.classList.add("tabs__tab");
 map_tab.classList.add("tabs__tab-active");
-map_tab.innerHTML = "Map";
+map_tab.innerText = "Map";
 tabs.appendChild(map_tab);
 map_tab.addEventListener("click", changeTab);
 
 let pca_tab = document.createElement("div");
 pca_tab.classList.add("tabs__tab");
-pca_tab.innerHTML = "PCA";
+pca_tab.innerText = "PCA";
 pca_tab.addEventListener("click", changeTab);
 
 tabs.appendChild(pca_tab);
@@ -9631,13 +9632,6 @@ let year_nav = document.createElement("div");
 year_nav.classList.add("tabs__years-nav");
 year_nav.innerHTML = "";
 tabs.appendChild(year_nav);
-
-let year_range = document.createElement("input");
-year_range.classList.add("tabs__year-button-left");
-year_range.type = "range";
-year_range.min = 0;
-year_range.min = DATA_PERIODS.length - 1;
-year_nav.appendChild(year_range);
 
 let year_left = document.createElement("div");
 year_left.classList.add("tabs__year-button-left");
@@ -9652,7 +9646,9 @@ year.innerHTML = DATA_PERIODS[currentYear];
 year_nav.appendChild(year);
 
 let year_right = document.createElement("div");
-year_right.classList.add("tabs__year-button-right");
+year_right
+    .classList
+    .add("tabs__year-button-right");
 year_right.innerHTML = "&gt;";
 year_right.addEventListener("click", changeYear);
 year_nav.appendChild(year_right);
@@ -22748,7 +22744,7 @@ function nopropagation() {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_d3__ = __webpack_require__(49);
 
 
-let width = 960, height = 570;
+let width = 960, height = 570; //TODO take ViewPort
 
 let color = __WEBPACK_IMPORTED_MODULE_0_d3__["g" /* scaleThreshold */]()
     .domain([0,1,2,3,4,5,6])
@@ -22797,11 +22793,11 @@ function initMap(period) {
     function ready(error, data, clusters) {
         let clusterById = {};
         console.log(clusters)
-        clusters.data.forEach(function(d) { clusterById[d.country] = + d[period].cluster;});
+        clusters.data.forEach(function(d) { clusterById[d.country] = + d[period].cluster;}); // TODO foreach ==> map
         data.features.forEach(function(d) { clusterById[d.id] ? d.cluster = clusterById[d.id] : d.cluster = -1 });
 
 
-        var tooltip = __WEBPACK_IMPORTED_MODULE_0_d3__["h" /* select */]("body").append("div")
+        let tooltip = __WEBPACK_IMPORTED_MODULE_0_d3__["h" /* select */]("body").append("div")
             .attr("class", "tooltip")
             .style("opacity", 0);
 
@@ -22907,9 +22903,9 @@ function initPCA(period) {
             .append('g')
             .attr("class", "country")
             .attr("transform", d => "translate(" +  scaleX(d[period].x)  + ',' +  scaleY(d[period].y)+ ")")
-            .on('mousemove',function(d){
-                __WEBPACK_IMPORTED_MODULE_0_d3__["h" /* select */](this).raise();
-            })
+            .on('mousemove',
+                    d => __WEBPACK_IMPORTED_MODULE_0_d3__["h" /* select */](this)
+                        .raise()); //moving element on front
 
         countries
             .append("rect")

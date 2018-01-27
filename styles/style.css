@@ -3,6 +3,8 @@ body {
     padding: 0;
 }
 
+/*refactor to LESS (with D1mD1m)))*/
+
 svg {
     display: block;
     margin: 0 auto;

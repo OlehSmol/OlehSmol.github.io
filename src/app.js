@@ -23,10 +23,10 @@ function changeTab(event) {
         tabs[i].className = tabs[i].className.replace("tabs__tab-active", "");
     }
     tabs_content.innerHTML = "";
-    if(event.currentTarget.innerHTML == "Map"){
+    if(event.currentTarget.innerHTML === "Map"){ // <== TODO change
         map.initMap(DATA_PERIODS[currentYear]);
         currentTab = "Map";
-    } else if (event.currentTarget.innerHTML == "PCA") {
+    } else if (event.currentTarget.innerHTML === "PCA") {
         pca.initPCA(DATA_PERIODS[currentYear]);
         currentTab = "PCA";
     }
@@ -47,6 +47,7 @@ function changeYear(event) {
     }
 
     if(currentYear === DATA_PERIODS.length - 1){
+        //TODO year_right.classList.toggle()
         year_right.classList.add("tabs__year-button-hidden");
     } else {
         year_right.classList.remove("tabs__year-button-hidden");
@@ -72,13 +73,13 @@ document.body.appendChild(tabs);
 let map_tab = document.createElement("div");
 map_tab.classList.add("tabs__tab");
 map_tab.classList.add("tabs__tab-active");
-map_tab.innerHTML = "Map";
+map_tab.innerText = "Map";
 tabs.appendChild(map_tab);
 map_tab.addEventListener("click", changeTab);
 
 let pca_tab = document.createElement("div");
 pca_tab.classList.add("tabs__tab");
-pca_tab.innerHTML = "PCA";
+pca_tab.innerText = "PCA";
 pca_tab.addEventListener("click", changeTab);
 
 tabs.appendChild(pca_tab);
@@ -110,7 +111,9 @@ year.innerHTML = DATA_PERIODS[currentYear];
 year_nav.appendChild(year);
 
 let year_right = document.createElement("div");
-year_right.classList.add("tabs__year-button-right");
+year_right
+    .classList
+    .add("tabs__year-button-right");
 year_right.innerHTML = "&gt;";
 year_right.addEventListener("click", changeYear);
 year_nav.appendChild(year_right);
