@@ -1,14 +1,14 @@
 import * as d3 from "d3";
 
-let width = 960, height = 570;
+let width = 960, height = 570, padding = 50;
 
 const scaleX = d3.scaleLinear()
     .domain([-150, 280])
-    .range([  0, width]);
+    .range([padding, width-padding]);
 
 const scaleY = d3.scaleLinear()
     .domain([-170, 180])
-    .range([height, 0]);
+    .range([height-padding, padding]);
 
 let color = d3.scaleThreshold()
     .domain([0,1,2,3,4,5,6])
@@ -40,9 +40,24 @@ function initPCA(period) {
 
     d3.json("/data/data.json", (err, data) => {
         render(data.data);
-});
+    });
 
     const render = (data) => {
+        let yAxis = d3.axisLeft()
+            .scale(scaleY);
+
+        let xAxis = d3.axisBottom()
+            .scale(scaleX);
+        svg.append("g")
+            .attr("class", "axis")
+            .attr("transform", "translate("+padding+",0)")
+            .call(yAxis);
+
+        svg.append("g")
+            .attr("class", "xaxis axis")  // two classes, one for css formatting, one for selection below
+            .attr("transform", "translate(0," + (height - padding) + ")")
+            .call(xAxis);
+
         const countries = svg
             .selectAll(".country")
             .data(data)

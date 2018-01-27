@@ -2616,7 +2616,8 @@ Cardinal.prototype = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_d3_array__ = __webpack_require__(3);
 /* unused harmony namespace reexport */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_d3_axis__ = __webpack_require__(190);
-/* unused harmony namespace reexport */
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_2_d3_axis__["a"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_2_d3_axis__["b"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_d3_brush__ = __webpack_require__(194);
 /* unused harmony namespace reexport */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_d3_chord__ = __webpack_require__(280);
@@ -2638,8 +2639,8 @@ Cardinal.prototype = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_d3_format__ = __webpack_require__(71);
 /* unused harmony namespace reexport */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13_d3_geo__ = __webpack_require__(323);
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_13_d3_geo__["a"]; });
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "c", function() { return __WEBPACK_IMPORTED_MODULE_13_d3_geo__["b"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "d", function() { return __WEBPACK_IMPORTED_MODULE_13_d3_geo__["a"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "e", function() { return __WEBPACK_IMPORTED_MODULE_13_d3_geo__["b"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14_d3_hierarchy__ = __webpack_require__(351);
 /* unused harmony namespace reexport */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_15_d3_interpolate__ = __webpack_require__(5);
@@ -2651,18 +2652,18 @@ Cardinal.prototype = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_18_d3_quadtree__ = __webpack_require__(69);
 /* unused harmony namespace reexport */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_19_d3_queue__ = __webpack_require__(380);
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "e", function() { return __WEBPACK_IMPORTED_MODULE_19_d3_queue__["a"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "g", function() { return __WEBPACK_IMPORTED_MODULE_19_d3_queue__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_20_d3_random__ = __webpack_require__(383);
 /* unused harmony namespace reexport */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_21_d3_request__ = __webpack_require__(388);
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "d", function() { return __WEBPACK_IMPORTED_MODULE_21_d3_request__["a"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "f", function() { return __WEBPACK_IMPORTED_MODULE_21_d3_request__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_22_d3_scale__ = __webpack_require__(395);
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "f", function() { return __WEBPACK_IMPORTED_MODULE_22_d3_scale__["a"]; });
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "g", function() { return __WEBPACK_IMPORTED_MODULE_22_d3_scale__["b"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "h", function() { return __WEBPACK_IMPORTED_MODULE_22_d3_scale__["a"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "i", function() { return __WEBPACK_IMPORTED_MODULE_22_d3_scale__["b"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_23_d3_selection__ = __webpack_require__(1);
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_23_d3_selection__["b"]; });
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "h", function() { return __WEBPACK_IMPORTED_MODULE_23_d3_selection__["f"]; });
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "i", function() { return __WEBPACK_IMPORTED_MODULE_23_d3_selection__["g"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "c", function() { return __WEBPACK_IMPORTED_MODULE_23_d3_selection__["b"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "j", function() { return __WEBPACK_IMPORTED_MODULE_23_d3_selection__["f"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "k", function() { return __WEBPACK_IMPORTED_MODULE_23_d3_selection__["g"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_24_d3_shape__ = __webpack_require__(428);
 /* unused harmony namespace reexport */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_25_d3_time__ = __webpack_require__(44);
@@ -9562,7 +9563,7 @@ let currentTab = "Map";
 function changeTab(event) {
     let tabs = document.getElementsByClassName("tabs__tab");
     for (let i = 0; i < tabs.length; i++) {
-        tabs[i].className = tabs[i].className.replace("tabs__tab-active", "");
+        tabs[i].className = tabs[i].className.replace("tabs__tab--active", "");
     }
     tabs_content.innerHTML = "";
     if(event.currentTarget.innerHTML === "Map"){ // <== TODO change
@@ -9572,27 +9573,17 @@ function changeTab(event) {
         __WEBPACK_IMPORTED_MODULE_2__pca__["a" /* default */].initPCA(DATA_PERIODS[currentYear]);
         currentTab = "PCA";
     }
-    event.currentTarget.classList.add("tabs__tab-active");
+    event.currentTarget.classList.add("tabs__tab--active");
 }
 
-function changeYear(event) {
-    if(event.currentTarget === year_left && currentYear > 0){
-        currentYear--;
-    } else if (event.currentTarget === year_right && currentYear < DATA_PERIODS.length - 1) {
-        currentYear++;
-    }
-
-    if(currentYear === 0){
-        year_left.classList.add("tabs__year-button-hidden");
-    } else {
-        year_left.classList.remove("tabs__year-button-hidden");
-    }
+function updateYear() {
+    year_range.value = currentYear;
 
     if(currentYear === DATA_PERIODS.length - 1){
         //TODO year_right.classList.toggle()
-        year_right.classList.add("tabs__year-button-hidden");
+        year_right.classList.add("tabs__year-button--hidden");
     } else {
-        year_right.classList.remove("tabs__year-button-hidden");
+        year_right.classList.remove("tabs__year-button--hidden");
     }
 
     if(currentTab === "Map"){
@@ -9600,10 +9591,30 @@ function changeYear(event) {
     } else if (currentTab === "PCA"){
         __WEBPACK_IMPORTED_MODULE_2__pca__["a" /* default */].drawPCA(DATA_PERIODS[currentYear]);
     }
-    console.log(currentYear)
+
     year.innerHTML = DATA_PERIODS[currentYear]
 }
 
+function changeYearOnButton(event) {
+    if(event.currentTarget === year_left && currentYear > 0){
+        currentYear--;
+    } else if (event.currentTarget === year_right && currentYear < DATA_PERIODS.length - 1) {
+        currentYear++;
+    }
+
+    if(currentYear === 0){
+        year_left.classList.add("tabs__year-button--hidden");
+    } else {
+        year_left.classList.remove("tabs__year-button--hidden");
+    }
+
+    updateYear();
+}
+
+function changeYearOnRange(event) {
+    currentYear = year_range.value;
+    updateYear();
+}
 // create tabs container
 
 let tabs = document.createElement("div");
@@ -9612,18 +9623,25 @@ document.body.appendChild(tabs);
 
 // create add tabs
 
+let info_tab = document.createElement("div");
+info_tab.classList.add("tabs__tab");
+info_tab.classList.add("tabs__tab--active");
+info_tab.innerText = "Info";
+info_tab.addEventListener("click", changeTab);
+tabs.appendChild(info_tab);
+
 let map_tab = document.createElement("div");
 map_tab.classList.add("tabs__tab");
-map_tab.classList.add("tabs__tab-active");
+map_tab.classList.add("tabs__tab--plot");
 map_tab.innerText = "Map";
 tabs.appendChild(map_tab);
 map_tab.addEventListener("click", changeTab);
 
 let pca_tab = document.createElement("div");
 pca_tab.classList.add("tabs__tab");
+pca_tab.classList.add("tabs__tab--plot");
 pca_tab.innerText = "PCA";
 pca_tab.addEventListener("click", changeTab);
-
 tabs.appendChild(pca_tab);
 
 // create add year menu
@@ -9633,11 +9651,20 @@ year_nav.classList.add("tabs__years-nav");
 year_nav.innerHTML = "";
 tabs.appendChild(year_nav);
 
+let year_range = document.createElement("input");
+year_range.classList.add("tabs__year-range");
+year_range.type = "range";
+year_range.min = 0;
+year_range.max = DATA_PERIODS.length - 1;
+year_range.value = currentYear;
+year_range.addEventListener("change", changeYearOnRange);
+year_nav.appendChild(year_range);
+
 let year_left = document.createElement("div");
 year_left.classList.add("tabs__year-button-left");
-year_left.classList.add("tabs__year-button-hidden");
+year_left.classList.add("tabs__year-button--hidden");
 year_left.innerHTML = "&lt;";
-year_left.addEventListener("click", changeYear);
+year_left.addEventListener("click", changeYearOnButton);
 year_nav.appendChild(year_left);
 
 let year = document.createElement("div");
@@ -9650,7 +9677,7 @@ year_right
     .classList
     .add("tabs__year-button-right");
 year_right.innerHTML = "&gt;";
-year_right.addEventListener("click", changeYear);
+year_right.addEventListener("click", changeYearOnButton);
 year_nav.appendChild(year_right);
 
 // add container for plots
@@ -9659,7 +9686,6 @@ let tabs_content = document.createElement("div");
 tabs_content.classList.add("tabs__content");
 tabs.appendChild(tabs_content);
 
-__WEBPACK_IMPORTED_MODULE_1__map__["a" /* default */].initMap(DATA_PERIODS[currentYear]);
 
 /***/ }),
 /* 173 */
@@ -10131,8 +10157,8 @@ var dependencies = {"d3-array":"1.2.1","d3-axis":"1.0.8","d3-brush":"1.0.4","d3-
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__src_axis__ = __webpack_require__(191);
 /* unused harmony reexport axisTop */
 /* unused harmony reexport axisRight */
-/* unused harmony reexport axisBottom */
-/* unused harmony reexport axisLeft */
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_0__src_axis__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_0__src_axis__["b"]; });
 
 
 
@@ -10143,8 +10169,8 @@ var dependencies = {"d3-array":"1.2.1","d3-axis":"1.0.8","d3-brush":"1.0.4","d3-
 "use strict";
 /* unused harmony export axisTop */
 /* unused harmony export axisRight */
-/* unused harmony export axisBottom */
-/* unused harmony export axisLeft */
+/* harmony export (immutable) */ __webpack_exports__["a"] = axisBottom;
+/* harmony export (immutable) */ __webpack_exports__["b"] = axisLeft;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__array__ = __webpack_require__(192);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__identity__ = __webpack_require__(193);
 
@@ -22746,21 +22772,21 @@ function nopropagation() {
 
 let width = 960, height = 570; //TODO take ViewPort
 
-let color = __WEBPACK_IMPORTED_MODULE_0_d3__["g" /* scaleThreshold */]()
+let color = __WEBPACK_IMPORTED_MODULE_0_d3__["i" /* scaleThreshold */]()
     .domain([0,1,2,3,4,5,6])
     .range(["silver", "#8D7019",  "#003D2E", "#5B105B", "#8D5119", "#FFAA00", "#84182B"]);
 
 
-let projection = __WEBPACK_IMPORTED_MODULE_0_d3__["b" /* geoMercator */]()
+let projection = __WEBPACK_IMPORTED_MODULE_0_d3__["d" /* geoMercator */]()
     .scale(130)
     .translate( [width / 2, height / 1.5]);
 
-let path = __WEBPACK_IMPORTED_MODULE_0_d3__["c" /* geoPath */]().projection(projection);
+let path = __WEBPACK_IMPORTED_MODULE_0_d3__["e" /* geoPath */]().projection(projection);
 
 function drawMap(period) {
-    __WEBPACK_IMPORTED_MODULE_0_d3__["e" /* queue */]()
-        .defer(__WEBPACK_IMPORTED_MODULE_0_d3__["d" /* json */], "/data/world_countries.json")
-        .defer(__WEBPACK_IMPORTED_MODULE_0_d3__["d" /* json */], "/data/data.json")
+    __WEBPACK_IMPORTED_MODULE_0_d3__["g" /* queue */]()
+        .defer(__WEBPACK_IMPORTED_MODULE_0_d3__["f" /* json */], "/data/world_countries.json")
+        .defer(__WEBPACK_IMPORTED_MODULE_0_d3__["f" /* json */], "/data/data.json")
         .await(ready);
 
     function ready(error, map_data, clusters) {
@@ -22768,7 +22794,7 @@ function drawMap(period) {
         console.log(clusters)
         clusters.data.forEach(function(d) { clusterById[d.country] = + d[period].cluster;});
         map_data.features.forEach(function(d) { clusterById[d.id] ? d.cluster = clusterById[d.id] : d.cluster = -1 });
-        __WEBPACK_IMPORTED_MODULE_0_d3__["i" /* selectAll */]("svg .map path")
+        __WEBPACK_IMPORTED_MODULE_0_d3__["k" /* selectAll */]("svg .map path")
             .data(map_data.features)
             .transition()
             .delay(500)
@@ -22778,16 +22804,16 @@ function drawMap(period) {
 }
 
 function initMap(period) {
-    let svg = __WEBPACK_IMPORTED_MODULE_0_d3__["h" /* select */](".tabs__content")
+    let svg = __WEBPACK_IMPORTED_MODULE_0_d3__["j" /* select */](".tabs__content")
         .append("svg")
         .attr("width", width)
         .attr("height", height)
         .append('g')
         .attr('class', 'map');
     console.log(svg)
-    __WEBPACK_IMPORTED_MODULE_0_d3__["e" /* queue */]()
-        .defer(__WEBPACK_IMPORTED_MODULE_0_d3__["d" /* json */], "/data/world_countries.json")
-        .defer(__WEBPACK_IMPORTED_MODULE_0_d3__["d" /* json */], "/data/data.json")
+    __WEBPACK_IMPORTED_MODULE_0_d3__["g" /* queue */]()
+        .defer(__WEBPACK_IMPORTED_MODULE_0_d3__["f" /* json */], "/data/world_countries.json")
+        .defer(__WEBPACK_IMPORTED_MODULE_0_d3__["f" /* json */], "/data/data.json")
         .await(ready);
 
     function ready(error, data, clusters) {
@@ -22797,7 +22823,7 @@ function initMap(period) {
         data.features.forEach(function(d) { clusterById[d.id] ? d.cluster = clusterById[d.id] : d.cluster = -1 });
 
 
-        let tooltip = __WEBPACK_IMPORTED_MODULE_0_d3__["h" /* select */]("body").append("div")
+        let tooltip = __WEBPACK_IMPORTED_MODULE_0_d3__["j" /* select */]("body").append("div")
             .attr("class", "tooltip")
             .style("opacity", 0);
 
@@ -22818,22 +22844,22 @@ function initMap(period) {
                     .duration(200)
                     .style("opacity", .9);
 
-                __WEBPACK_IMPORTED_MODULE_0_d3__["h" /* select */](this)
+                __WEBPACK_IMPORTED_MODULE_0_d3__["j" /* select */](this)
                     .style("opacity", 1)
                     .style("stroke","white")
                     .style("stroke-width",3);
             })
             .on("mousemove", function(d){
                 tooltip.html(d.id)
-                    .style("left", (__WEBPACK_IMPORTED_MODULE_0_d3__["a" /* event */].pageX) + "px")
-                    .style("top", (__WEBPACK_IMPORTED_MODULE_0_d3__["a" /* event */].pageY - 28) + "px");
+                    .style("left", (__WEBPACK_IMPORTED_MODULE_0_d3__["c" /* event */].pageX) + "px")
+                    .style("top", (__WEBPACK_IMPORTED_MODULE_0_d3__["c" /* event */].pageY - 28) + "px");
             })
             .on('mouseout', function(d){
                 tooltip.transition()
                     .duration(500)
                     .style("opacity", 0);
 
-                __WEBPACK_IMPORTED_MODULE_0_d3__["h" /* select */](this)
+                __WEBPACK_IMPORTED_MODULE_0_d3__["j" /* select */](this)
                     .style("opacity", 0.8)
                     .style("stroke","white")
                     .style("stroke-width",0.3);
@@ -22853,32 +22879,32 @@ function initMap(period) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_d3__ = __webpack_require__(49);
 
 
-let width = 960, height = 570;
+let width = 960, height = 570, padding = 50;
 
-const scaleX = __WEBPACK_IMPORTED_MODULE_0_d3__["f" /* scaleLinear */]()
+const scaleX = __WEBPACK_IMPORTED_MODULE_0_d3__["h" /* scaleLinear */]()
     .domain([-150, 280])
-    .range([  0, width]);
+    .range([padding, width-padding]);
 
-const scaleY = __WEBPACK_IMPORTED_MODULE_0_d3__["f" /* scaleLinear */]()
+const scaleY = __WEBPACK_IMPORTED_MODULE_0_d3__["h" /* scaleLinear */]()
     .domain([-170, 180])
-    .range([height, 0]);
+    .range([height-padding, padding]);
 
-let color = __WEBPACK_IMPORTED_MODULE_0_d3__["g" /* scaleThreshold */]()
+let color = __WEBPACK_IMPORTED_MODULE_0_d3__["i" /* scaleThreshold */]()
     .domain([0,1,2,3,4,5,6])
     .range(["silver", "#8D7019",  "#003D2E", "#5B105B", "#8D5119", "#FFAA00", "#84182B"]);
 
 function drawPCA(period) {
-    __WEBPACK_IMPORTED_MODULE_0_d3__["d" /* json */]("/data/data.json", (err, data) => {
+    __WEBPACK_IMPORTED_MODULE_0_d3__["f" /* json */]("/data/data.json", (err, data) => {
         render(data.data);
 });
 
     const render = (data) => {
-        __WEBPACK_IMPORTED_MODULE_0_d3__["i" /* selectAll */]("svg .country")
+        __WEBPACK_IMPORTED_MODULE_0_d3__["k" /* selectAll */]("svg .country")
             .transition()
             .duration(3000)
             .attr("transform", d => "translate(" +  scaleX(d[period].x)  + ',' +  scaleY(d[period].y)+ ")");
 
-        __WEBPACK_IMPORTED_MODULE_0_d3__["i" /* selectAll */]("svg .country rect")
+        __WEBPACK_IMPORTED_MODULE_0_d3__["k" /* selectAll */]("svg .country rect")
             .transition()
             .duration(3000)
             .attr("fill", d => color(d[period].cluster) )
@@ -22886,16 +22912,31 @@ function drawPCA(period) {
 }
 
 function initPCA(period) {
-    const svg = __WEBPACK_IMPORTED_MODULE_0_d3__["h" /* select */](".tabs__content")
+    const svg = __WEBPACK_IMPORTED_MODULE_0_d3__["j" /* select */](".tabs__content")
         .append("svg")
         .attr("width", width)
         .attr("height", height)
 
-    __WEBPACK_IMPORTED_MODULE_0_d3__["d" /* json */]("/data/data.json", (err, data) => {
+    __WEBPACK_IMPORTED_MODULE_0_d3__["f" /* json */]("/data/data.json", (err, data) => {
         render(data.data);
-});
+    });
 
     const render = (data) => {
+        let yAxis = __WEBPACK_IMPORTED_MODULE_0_d3__["b" /* axisLeft */]()
+            .scale(scaleY);
+
+        let xAxis = __WEBPACK_IMPORTED_MODULE_0_d3__["a" /* axisBottom */]()
+            .scale(scaleX);
+        svg.append("g")
+            .attr("class", "axis")
+            .attr("transform", "translate("+padding+",0)")
+            .call(yAxis);
+
+        svg.append("g")
+            .attr("class", "xaxis axis")  // two classes, one for css formatting, one for selection below
+            .attr("transform", "translate(0," + (height - padding) + ")")
+            .call(xAxis);
+
         const countries = svg
             .selectAll(".country")
             .data(data)
@@ -22903,9 +22944,9 @@ function initPCA(period) {
             .append('g')
             .attr("class", "country")
             .attr("transform", d => "translate(" +  scaleX(d[period].x)  + ',' +  scaleY(d[period].y)+ ")")
-            .on('mousemove',
-                    d => __WEBPACK_IMPORTED_MODULE_0_d3__["h" /* select */](this)
-                        .raise()); //moving element on front
+            .on('mousemove',function(d){
+                __WEBPACK_IMPORTED_MODULE_0_d3__["j" /* select */](this).raise();
+            })
 
         countries
             .append("rect")
@@ -22915,11 +22956,11 @@ function initPCA(period) {
             .attr("opacity", 0.7)
             .attr('rx', 10)
             .on('mousemove',function(d){
-                __WEBPACK_IMPORTED_MODULE_0_d3__["h" /* select */](this)
+                __WEBPACK_IMPORTED_MODULE_0_d3__["j" /* select */](this)
                     .style("opacity", 1);
             })
             .on('mouseout', function(d){
-                __WEBPACK_IMPORTED_MODULE_0_d3__["h" /* select */](this)
+                __WEBPACK_IMPORTED_MODULE_0_d3__["j" /* select */](this)
                     .style("opacity", 0.8);
             });
 
