@@ -12,7 +12,7 @@ const scaleY = d3.scaleLinear()
 
 let color = d3.scaleThreshold()
     .domain([0,1,2,3,4,5,6])
-    .range(["silver", "black", "yellow", "brown", "orange", "blue", "green"]);
+    .range(["silver", "#8D7019",  "#003D2E", "#5B105B", "#8D5119", "#FFAA00", "#84182B"]);
 
 function drawPCA(period) {
     d3.json("/data/data.json", (err, data) => {
