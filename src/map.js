@@ -1,6 +1,6 @@
 import * as d3 from "d3";
 
-let width = 960, height = 570;
+let width = 960, height = 570; //TODO take ViewPort
 
 let color = d3.scaleThreshold()
     .domain([0,1,2,3,4,5,6])
@@ -49,11 +49,11 @@ function initMap(period) {
     function ready(error, data, clusters) {
         let clusterById = {};
         console.log(clusters)
-        clusters.data.forEach(function(d) { clusterById[d.country] = + d[period].cluster;});
+        clusters.data.forEach(function(d) { clusterById[d.country] = + d[period].cluster;}); // TODO foreach ==> map
         data.features.forEach(function(d) { clusterById[d.id] ? d.cluster = clusterById[d.id] : d.cluster = -1 });
 
 
-        var tooltip = d3.select("body").append("div")
+        let tooltip = d3.select("body").append("div")
             .attr("class", "tooltip")
             .style("opacity", 0);
 
