@@ -25,11 +25,10 @@ function drawPCA(period) {
             .duration(3000)
             .attr("transform", d => "translate(" +  scaleX(d[period].x)  + ',' +  scaleY(d[period].y)+ ")");
 
-        d3.selectAll("svg .country circle")
-            .data(data)
+        d3.selectAll("svg .country rect")
             .transition()
             .duration(3000)
-            .style("fill", d => color(d[period].cluster));
+            .attr("fill", d => color(d[period].cluster) )
     };
 }
 
@@ -53,25 +52,28 @@ function initPCA(period) {
             .attr("transform", d => "translate(" +  scaleX(d[period].x)  + ',' +  scaleY(d[period].y)+ ")");
 
         countries
-            .append("circle")
-            .data(data)
-            .attr("r", 10)
-            .attr("fill", d => color(d[period].cluster) );
-
-        countries
             .append("rect")
-            .attr("width", 42)
+            .attr("width", 50)
             .attr("height", 30)
-            .attr("fill", 'yellow')
-            .attr("opacity", 0.6)
-            .attr("transform", "translate(" + 0 + ',' +  -20 + ")") //placing as the text background
-            .attr('rx', 10)  // rounding edges
+            .attr("fill", d => color(d[period].cluster) )
+            .attr("opacity", 0.8)
+            .attr('rx', 10)
+            .on('mousemove',function(d){
+                d3.select(this)
+                    .style("opacity", 1);
+            })
+            .on('mouseout', function(d){
+                d3.select(this)
+                    .style("opacity", 0.8)
+            });
 
         countries
             .append("text")
             .data(data)
             .text(d => d.country)
-    .attr("font-size", "20px");
+            .attr("transform", "translate(5, 20)")
+            .attr('pointer-events', 'none')
+            .attr("font-size", "20px");
     };
 }
 
