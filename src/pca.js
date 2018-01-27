@@ -49,14 +49,19 @@ function initPCA(period) {
             .enter()
             .append('g')
             .attr("class", "country")
-            .attr("transform", d => "translate(" +  scaleX(d[period].x)  + ',' +  scaleY(d[period].y)+ ")");
+            .attr("transform", d => "translate(" +  scaleX(d[period].x)  + ',' +  scaleY(d[period].y)+ ")")
+            .on('mousemove',function(d){
+                d3.select(this).each(function(){
+                    this.parentNode.appendChild(this);
+                });
+            })
 
         countries
             .append("rect")
             .attr("width", 50)
             .attr("height", 30)
             .attr("fill", d => color(d[period].cluster) )
-            .attr("opacity", 0.8)
+            .attr("opacity", 0.7)
             .attr('rx', 10)
             .on('mousemove',function(d){
                 d3.select(this)
@@ -64,7 +69,7 @@ function initPCA(period) {
             })
             .on('mouseout', function(d){
                 d3.select(this)
-                    .style("opacity", 0.8)
+                    .style("opacity", 0.8);
             });
 
         countries
