@@ -51,9 +51,7 @@ function initPCA(period) {
             .attr("class", "country")
             .attr("transform", d => "translate(" +  scaleX(d[period].x)  + ',' +  scaleY(d[period].y)+ ")")
             .on('mousemove',function(d){
-                d3.select(this).each(function(){
-                    this.parentNode.appendChild(this);
-                });
+                d3.select(this).raise();
             })
 
         countries

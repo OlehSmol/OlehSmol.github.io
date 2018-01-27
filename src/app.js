@@ -90,6 +90,13 @@ year_nav.classList.add("tabs__years-nav");
 year_nav.innerHTML = "";
 tabs.appendChild(year_nav);
 
+let year_range = document.createElement("input");
+year_range.classList.add("tabs__year-button-left");
+year_range.type = "range";
+year_range.min = 0;
+year_range.min = DATA_PERIODS.length - 1;
+year_nav.appendChild(year_range);
+
 let year_left = document.createElement("div");
 year_left.classList.add("tabs__year-button-left");
 year_left.classList.add("tabs__year-button-hidden");
