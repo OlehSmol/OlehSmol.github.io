@@ -146,8 +146,8 @@
 				function draw_plot(data1, data2, sign, flag, opacity){
 					add_bar_top(svg, data1, 2.8, 0, 0, flag, sign, opacity, "steelblue");
 					add_bar_top(svg, data2, 2.8, 1, 5, flag, sign, opacity, "blueviolet");
-					add_bar_bottom(svg, data2, 2.8, 0, 0, flag, sign, opacity, "red");
-					add_bar_bottom(svg, data1, 2.8, 1, 5, flag, sign, opacity, "DarkRed");
+					add_bar_bottom(svg, data1, 2.8, 0, 0, flag, sign, opacity, "red");
+					add_bar_bottom(svg, data2, 2.8, 1, 5, flag, sign, opacity, "DarkRed");
 				}
 
 				function add_bar_top(svg, data, size, i, margin, flag, sign, opacity, color) {
@@ -279,7 +279,7 @@
 				}
 				var LABELS = ['Домашні матчі', "Гостьові матчі"];
 				var COLORS1 = ["steelblue", "blueviolet"];
-				var COLORS2 = ["DarkRed", "red"];
+				var COLORS2 = ["red", "DarkRed"];
 				var VALUES = ["val0", "val1"];
 				var color1 = d3.scale.ordinal()
                 .range(COLORS1);
