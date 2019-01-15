@@ -184,7 +184,8 @@
 	                        if(flag == "filter") {
                                 d3.selectAll("rect")
                                     .style("opacity", 1.0);
-                                d3.selectAll("text.filter").remove();
+								d3.selectAll("text.filter")
+									.remove();
                                 d3.selectAll("rect.filter").remove();
 								d3.selectAll("text.all")
 									.style("opacity",1.0);
@@ -244,6 +245,8 @@
 						}).on("mouseout", function(d) {
 	                        if(flag == "filter"){
 								d3.selectAll("rect.filter")
+									.remove();
+								d3.selectAll("text.filter")
 									.remove();
 								d3.selectAll("rect")
 									.style("opacity", 1.0);
