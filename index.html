@@ -30,8 +30,8 @@
    	<body>
 		<H2>Кількість забитих голів у Прем'єр Лізі (2017-2018) </H2>
    	   	<script>
-			var margin = {top: 40, right: 20, bottom: 250, left: 50},
-				width = 1000 - margin.left - margin.right,
+			var margin = {top: 40, right: 200, bottom: 250, left: 50},
+				width = 1200 - margin.left - margin.right,
 				height = 470 - margin.top - margin.bottom;
 
 			var x = d3.scale.ordinal().rangeRoundBands([0, width], .05);
@@ -146,8 +146,8 @@
 				function draw_plot(data1, data2, sign, flag, opacity){
 					add_bar_top(svg, data1, 2.8, 0, 0, flag, sign, opacity, "steelblue");
 					add_bar_top(svg, data2, 2.8, 1, 5, flag, sign, opacity, "blueviolet");
-					add_bar_bottom(svg, data1, 2.8, 0, 0, flag, sign, opacity, "red");
-					add_bar_bottom(svg, data2, 2.8, 1, 5, flag, sign, opacity, "DarkRed");
+					add_bar_bottom(svg, data2, 2.8, 0, 0, flag, sign, opacity, "red");
+					add_bar_bottom(svg, data1, 2.8, 1, 5, flag, sign, opacity, "DarkRed");
 				}
 
 				function add_bar_top(svg, data, size, i, margin, flag, sign, opacity, color) {
@@ -170,12 +170,11 @@
 					  	        return height - y(d.values.minus);
 							}
 					  	     })
-				        .attr('class', flag)
+				        .attr('class', "plottt " + flag)
 						.style("opacity", opacity)
 					  	.on("mouseover", function(d) {
 	                        if(flag == "all") {
-                                d3.select("#tooltip");
-                                d3.selectAll("rect")
+                                d3.selectAll("rect.plottt")
                                     .style("opacity", 0.0);
                                 filter_data(data, d);
 								d3.selectAll("text.all")
@@ -185,8 +184,7 @@
 	                        if(flag == "filter") {
                                 d3.selectAll("rect")
                                     .style("opacity", 1.0);
-                                d3.selectAll(".filter")
-                                    .remove();
+                                d3.selectAll("rect.filter").remove();
 								d3.selectAll("text.all")
 									.style("opacity",1.0);
                             }
@@ -233,12 +231,11 @@
                                 return height - y(d.values.plus);
                             }
 	  					})
-				        .attr('class', flag)
+				        .attr('class', "plottt " + flag)
 						.style("opacity", opacity)
 	  					.on("mouseover", function(d) {
 	  					    if(flag == "all") {
-								d3.select("#tooltip");
-								d3.selectAll("rect")
+								d3.selectAll("rect.plottt")
 									.style("opacity",0);
 								d3.selectAll("text.all")
 									.style("opacity",0);
@@ -246,10 +243,10 @@
 							}
 						}).on("mouseout", function(d) {
 	                        if(flag == "filter"){
+								d3.selectAll("rect.filter")
+									.remove();
 								d3.selectAll("rect")
 									.style("opacity", 1.0);
-								d3.selectAll(".filter")
-									.remove();
 								d3.selectAll("text.all")
 									.style("opacity",1.0);
 							}
@@ -281,6 +278,48 @@
 							}
 						});
 				}
+				var LABELS = ['Домашні матчі', "Гостьові матчі"];
+				var COLORS1 = ["steelblue", "blueviolet"];
+				var COLORS2 = ["DarkRed", "red"];
+				var VALUES = ["val0", "val1"];
+				var color1 = d3.scale.ordinal()
+                .range(COLORS1);
+				var color2 = d3.scale.ordinal()
+                .range(COLORS2);
+				var legend = svg.selectAll(".legend")
+					.data(VALUES)
+					.enter()
+					.append("g");
+
+				legend.append("rect")
+					.attr("fill", color1)
+					.attr("width", 30)
+					.attr("height", 20)
+					.attr("y", function (d, i) {
+						return i * 40 + 30;
+					})
+					.attr("x", 950);
+
+
+				legend.append("rect")
+					.attr("fill", color2)
+					.attr("width", 30)
+					.attr("height", 20)
+					.attr("y", function (d, i) {
+						return i * 40 + 30;
+					})
+					.attr("x", 990);
+
+				legend.append("text")
+					.attr("class", "label")
+					.attr("y", function (d, i) {
+						return i * 40 + 45;
+					})
+					.attr("x", 1030)
+					.attr("text-anchor", "start")
+					.text(function (d, i) {
+						return LABELS[i];
+					});
 	        })
       	</script>
       	<div id="info">
