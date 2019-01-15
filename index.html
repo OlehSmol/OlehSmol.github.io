@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang = "en">
    	<head>
+
     	<script src = "https://d3js.org/d3.v3.min.js"></script>
     	<style type="text/css">
     		#tooltip{
@@ -9,31 +10,31 @@
     			background-color: yellow;
     			display: inline-block;
     			vertical-align: top;
-    		};
-    		h1{
+    		}
+    		h2{
     			padding: 0;
     			text-align: center;
     		}
     		svg text.top {
-		      fill: white; 
+		      fill: white;
 		    }
+			#info{
+				padding-left: 20px;
+			}
     		/*text.name {
-		      fill: black; 
+		      fill: black;
 		    }*/
     	</style>
    	</head>
 
    	<body>
+		<H2>Кількість забитих голів у Прем'єр Лізі (2017-2018) </H2>
    	   	<script>
-			var margin = {top: 20, right: 20, bottom: 200, left: 40},
+			var margin = {top: 40, right: 20, bottom: 250, left: 50},
 				width = 1000 - margin.left - margin.right,
-				height = 400 - margin.top - margin.bottom;
-
-			// Parse the date / time
-			var	parseDate = d3.time.format("%Y-%m").parse;
+				height = 470 - margin.top - margin.bottom;
 
 			var x = d3.scale.ordinal().rangeRoundBands([0, width], .05);
-
 			var y = d3.scale.linear().range([height, 0]);
 
 			var xAxis = d3.svg.axis()
@@ -46,12 +47,26 @@
 				.orient("left")
 				.ticks(0);
 
+
 			var svg = d3.select("body").append("svg")
 				.attr("width", width + margin.left + margin.right)
 				.attr("height", height + margin.top + margin.bottom)
 			  .append("g")
 				.attr("transform",
 					  "translate(" + margin.left + "," + margin.top + ")");
+
+
+			svg.append("text")
+            .attr("text-anchor", "middle")
+            .attr("transform", "translate("+ -	20 +","+(height/2)+")rotate(-90)")
+			.style("font-size", "20px")
+            .text("Забиті");
+
+			svg.append("text")
+            .attr("text-anchor", "middle")
+            .attr("transform", "translate("+ -	20 +","+(height+(height/2))+")rotate(-90)")
+			.style("font-size", "20px")
+            .text("Пропущені");
 
    	   		d3.csv("static/upl-2017-2018.csv", function (data){
 
@@ -67,7 +82,7 @@
 					.entries(teams_data);
 
 					_home_teams_scores.forEach(function(d) {
-						d.values.short = d.key.slice(0,3);
+						d.values.short = d.key.slice(0,8);
 					});
 
 					var _guest_team_scores = d3.nest()
@@ -81,7 +96,7 @@
 						.entries(teams_data);
 
 					_guest_team_scores.forEach(function(d) {
-						d.values.short = d.key.slice(0,3);
+						d.values.short = d.key.slice(0,8);
 					});
 					return [_home_teams_scores, _guest_team_scores];
 				}
@@ -95,63 +110,79 @@
 
 				svg.append("g")
 				  	.attr("class", "x axis")
-				  	.attr("transform", "translate(0," + (height + 10) + ")")
+				  	.attr("transform", "translate(-10," + (height + 10) + ")")
 				  	.call(xAxis)
 					.selectAll("text.name")
 					.style("font-size", "34px")
-					.style("text-anchor", "middle")
-				  	.attr("dx", "-0.8em")
-				  	.attr("dy", "1.9em");
+					.style("text-anchor", "start");
 
 				svg.append("g")
 				 	.attr("class", "y axis")
 				  	.call(yAxis)
 				  	.text("Goals");
 
-  				add_bar_top(svg, home_teams_scores, 2.8, 0, 0, "all");
-  				add_bar_top(svg, guest_team_scores, 2.8, 1, 5, "all");
-  				add_bar_bottom(svg, home_teams_scores, 2.8, 0, 0, "all");
-  				add_bar_bottom(svg, guest_team_scores, 2.8, 1, 5, "all");
+				draw_plot(home_teams_scores, guest_team_scores, "plus", "all", 1.0);
 
 				function filter_data(all_data, team) {
-					var data_new = data.filter(function (d) {
-						return d.home_team == team.key || d.guest_team == team.key;
-					});
+				    var spike1 = home_teams_scores.filter(function (d) {return d.key != team.key;});
+					var spike2 = guest_team_scores.filter(function (d) {return d.key != team.key;});
+					draw_plot(spike1, spike2, "minus", "filter", 0.3);
+					d3.selectAll("text.filter").style("opacity", 0.0);
 
+				    var data_new = data.filter(function (d) {return d.home_team == team.key || d.guest_team == team.key;});
 				    var _aggregated = aggregate_teams(data_new);
 					var _home_teams_scores = _aggregated[0];
 					var _guest_team_scores = _aggregated[1];
-					console.log(team.key);
-					console.log(_home_teams_scores);
-					add_bar_top(svg, _home_teams_scores, 2.8, 0, 0, "filter");
-					add_bar_top(svg, _guest_team_scores, 2.8, 1, 5, "filter");
-					add_bar_bottom(svg, _home_teams_scores, 2.8, 0, 0, "filter");
-					add_bar_bottom(svg, _guest_team_scores, 2.8, 1, 5, "filter");
-                }
-  				
-				function add_bar_top(svg, data, size, i, margin, flag) {
+
+				    var spike3 = _home_teams_scores.filter(function (d) {return d.key != team.key;});
+					var spike4 = _guest_team_scores.filter(function (d) {return d.key != team.key;});
+					draw_plot(spike3, spike4, "minus", "filter", 1.0);
+
+					var _home_teams_scores = _home_teams_scores.filter(function (d) {return d.key == team.key;});
+					var _guest_team_scores = _guest_team_scores.filter(function (d) {return d.key == team.key;});
+					draw_plot(_home_teams_scores, _guest_team_scores, "plus", "filter", 1.0);
+				}
+
+				function draw_plot(data1, data2, sign, flag, opacity){
+					add_bar_top(svg, data1, 2.8, 0, 0, flag, sign, opacity, "steelblue");
+					add_bar_top(svg, data2, 2.8, 1, 5, flag, sign, opacity, "blueviolet");
+					add_bar_bottom(svg, data1, 2.8, 0, 0, flag, sign, opacity, "red");
+					add_bar_bottom(svg, data2, 2.8, 1, 5, flag, sign, opacity, "DarkRed");
+				}
+
+				function add_bar_top(svg, data, size, i, margin, flag, sign, opacity, color) {
 					svg.selectAll("bar")
 					  	.data(data)
 						.enter().append("rect")
-					  	.style("fill", "steelblue")
-					  	.attr("y", function(d) { return y(d.values.plus); })
+					  	.style("fill", color)
+					  	.attr("y", function(d) {
+					  	    if (sign == "plus")
+								return y(d.values.plus);
+					  		else
+					  		    return y(d.values.minus);
+					  	})
 					  	.attr("width", x.rangeBand()/size)
 					  	.attr("x", function(d) { return x(d.values.short)+x.rangeBand()*i/size + margin; })
-					  	.attr("height", function(d) { return height - y(d.values.plus); })
+					  	.attr("height", function(d) {
+					  	    if (sign == "plus"){
+					  	    	return height - y(d.values.plus);
+							} else {
+					  	        return height - y(d.values.minus);
+							}
+					  	     })
 				        .attr('class', flag)
+						.style("opacity", opacity)
 					  	.on("mouseover", function(d) {
 	                        if(flag == "all") {
                                 d3.select("#tooltip");
-                                document.getElementById("info").innerHTML = '<h1>' + d.key + '</h1>';
                                 d3.selectAll("rect")
-                                    .style("opacity", .3);
+                                    .style("opacity", 0.0);
                                 filter_data(data, d);
 								d3.selectAll("text.all")
 									.style("opacity",0.0);
                             }
 						}).on("mouseout", function(d) {
 	                        if(flag == "filter") {
-                                document.getElementById("info").innerHTML = '';
                                 d3.selectAll("rect")
                                     .style("opacity", 1.0);
                                 d3.selectAll(".filter")
@@ -166,44 +197,55 @@
 				        .enter().append("text")
 				        .attr("x", function(d) { return x(d.values.short)+x.rangeBand()*i/size + margin; })
 				        .attr("y", function(d, z){
-				        	if (flag == "all") {
-                                return y(d.values.plus) + 11;
-                            } else {
-				        	    return height -10
+				            if(sign == "plus"){
+					        	return y(d.values.plus) - 15;
+							} else {
+				        		return y(d.values.minus) - 15;
 							}
-				        } )
+				        })
 				        .attr("dx", "20")
 				        .attr("dy", ".36em")
 				        .attr("text-anchor", "end")
 				        .attr('class', 'leftscore')
 				        .attr('class', flag)
 				        .style('color', 'white')
-				        .text(function(d) {return d.values.plus});
+				        .text(function(d) {
+				            if(sign =="plus"){
+				                return d.values.plus
+							} else {
+				                return d.values.minus
+							}
+						});
 				}
 
-				function add_bar_bottom(svg, data, size, i, margin, flag) {
-	  				svg.selectAll("bar")
+				function add_bar_bottom(svg, data, size, i, margin, flag, sign, opacity, color) {
+				    svg.selectAll("bar")
 					  	.data(data)
 						.enter().append("rect")
-					  	.style("fill", "red")
+					  	.style("fill", color)
 					  	.attr("x", function(d) { return x(d.values.short) + x.rangeBand()*i/size + margin; })
 					  	.attr("width", x.rangeBand()/size)
 					  	.attr("y", function(d) { return height + 50; })
-	  					.attr("height", function(d) { return height - y(d.values.minus); })
+	  					.attr("height", function(d) {
+							if(sign == "plus"){
+								return height - y(d.values.minus);
+							} else {
+                                return height - y(d.values.plus);
+                            }
+	  					})
 				        .attr('class', flag)
+						.style("opacity", opacity)
 	  					.on("mouseover", function(d) {
 	  					    if(flag == "all") {
 								d3.select("#tooltip");
-								document.getElementById("info").innerHTML = '<h1>' + d.key + '</h1>';
 								d3.selectAll("rect")
-									.style("opacity",.3);
+									.style("opacity",0);
 								d3.selectAll("text.all")
 									.style("opacity",0);
 								filter_data(data, d);
 							}
 						}).on("mouseout", function(d) {
 	                        if(flag == "filter"){
-								document.getElementById("info").innerHTML = '';
 								d3.selectAll("rect")
 									.style("opacity", 1.0);
 								d3.selectAll(".filter")
@@ -219,22 +261,31 @@
 				        .enter().append("text")
 				        .attr("x", function(d) { return x(d.values.short)+x.rangeBand()*i/size + margin; })
 				        .attr("y", function(d, z){
-				            if (flag == "all"){
-					            return 2*height - y(d.values.minus) + 40;
+				            if(sign == "plus"){
+				            	return 2*height - y(d.values.minus) + 60;
 							} else {
-				                return height + 60;
+				                return 2*height - y(d.values.plus) + 60;
 							}
-				        } )
+
+				        })
 				        .attr("dx", "20")
-				        .attr("dy", ".36em")
+				        .attr("dy", ".56em")
 				        .attr("text-anchor", "end")
 				        .attr('class', 'leftscore')
 				        .attr('class', flag)
-				        .text(function(d) {return d.values.minus});
+				        .text(function(d) {
+				            if(sign =="plus"){
+				                return d.values.minus
+							} else {
+				                return d.values.plus
+							}
+						});
 				}
 	        })
       	</script>
-      	<div id="info">	
+      	<div id="info">
+			<p>На графіку зображено кількість забитих/пропущених голів під час Прем'єр Ліги.</p>
+			<p>Якщо навести на графік конкретної команди, можна побачити особистий рахунок з кожною командою</p>
       	</div>
    	</body>
 </html>
