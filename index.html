@@ -1,14 +1,240 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="styles/style.css">
-    <title>Food Habits Tendencies Visual</title>
-</head>
-<body>
-    <script src="./build/bundle.js"></script>
-</body>
+<!DOCTYPE html>
+<html lang = "en">
+   	<head>
+    	<script src = "https://d3js.org/d3.v3.min.js"></script>
+    	<style type="text/css">
+    		#tooltip{
+    			height: 100px;
+    			width: 400px;
+    			background-color: yellow;
+    			display: inline-block;
+    			vertical-align: top;
+    		};
+    		h1{
+    			padding: 0;
+    			text-align: center;
+    		}
+    		svg text.top {
+		      fill: white; 
+		    }
+    		/*text.name {
+		      fill: black; 
+		    }*/
+    	</style>
+   	</head>
+
+   	<body>
+   	   	<script>
+			var margin = {top: 20, right: 20, bottom: 200, left: 40},
+				width = 1000 - margin.left - margin.right,
+				height = 400 - margin.top - margin.bottom;
+
+			// Parse the date / time
+			var	parseDate = d3.time.format("%Y-%m").parse;
+
+			var x = d3.scale.ordinal().rangeRoundBands([0, width], .05);
+
+			var y = d3.scale.linear().range([height, 0]);
+
+			var xAxis = d3.svg.axis()
+				.scale(x)
+				.orient("bottom")
+				.tickSize(0);
+
+			var yAxis = d3.svg.axis()
+				.scale(y)
+				.orient("left")
+				.ticks(0);
+
+			var svg = d3.select("body").append("svg")
+				.attr("width", width + margin.left + margin.right)
+				.attr("height", height + margin.top + margin.bottom)
+			  .append("g")
+				.attr("transform",
+					  "translate(" + margin.left + "," + margin.top + ")");
+
+   	   		d3.csv("static/upl-2017-2018.csv", function (data){
+
+				function aggregate_teams(teams_data) {
+                	var _home_teams_scores = d3.nest()
+					.key(function(d) { return d.home_team; })
+					.rollup(function(v) {
+					    return {
+					     	plus: d3.sum(v, function(d) { return d.home_team_scored; }),
+    						minus: d3.sum(v, function(d) { return d.guest_team_scored; })
+						}
+					})
+					.entries(teams_data);
+
+					_home_teams_scores.forEach(function(d) {
+						d.values.short = d.key.slice(0,3);
+					});
+
+					var _guest_team_scores = d3.nest()
+						.key(function(d) { return d.guest_team; })
+						.rollup(function(v) {
+							return {
+								plus: d3.sum(v, function(d) { return d.guest_team_scored; }),
+								minus: d3.sum(v, function(d) { return d.home_team_scored; })
+							}
+						})
+						.entries(teams_data);
+
+					_guest_team_scores.forEach(function(d) {
+						d.values.short = d.key.slice(0,3);
+					});
+					return [_home_teams_scores, _guest_team_scores];
+				}
+
+				var aggregated = aggregate_teams(data);
+				var home_teams_scores = aggregated[0];
+				var guest_team_scores = aggregated[1];
+
+				x.domain(home_teams_scores.map(function(d) { return d.values.short; }));
+			  	y.domain([0, d3.max(home_teams_scores, function(d) { return d.values.plus; })]);
+
+				svg.append("g")
+				  	.attr("class", "x axis")
+				  	.attr("transform", "translate(0," + (height + 10) + ")")
+				  	.call(xAxis)
+					.selectAll("text.name")
+					.style("font-size", "34px")
+					.style("text-anchor", "middle")
+				  	.attr("dx", "-0.8em")
+				  	.attr("dy", "1.9em");
+
+				svg.append("g")
+				 	.attr("class", "y axis")
+				  	.call(yAxis)
+				  	.text("Goals");
+
+  				add_bar_top(svg, home_teams_scores, 2.8, 0, 0, "all");
+  				add_bar_top(svg, guest_team_scores, 2.8, 1, 5, "all");
+  				add_bar_bottom(svg, home_teams_scores, 2.8, 0, 0, "all");
+  				add_bar_bottom(svg, guest_team_scores, 2.8, 1, 5, "all");
+
+				function filter_data(all_data, team) {
+					var data_new = data.filter(function (d) {
+						return d.home_team == team.key || d.guest_team == team.key;
+					});
+
+				    var _aggregated = aggregate_teams(data_new);
+					var _home_teams_scores = _aggregated[0];
+					var _guest_team_scores = _aggregated[1];
+					console.log(team.key);
+					console.log(_home_teams_scores);
+					add_bar_top(svg, _home_teams_scores, 2.8, 0, 0, "filter");
+					add_bar_top(svg, _guest_team_scores, 2.8, 1, 5, "filter");
+					add_bar_bottom(svg, _home_teams_scores, 2.8, 0, 0, "filter");
+					add_bar_bottom(svg, _guest_team_scores, 2.8, 1, 5, "filter");
+                }
+  				
+				function add_bar_top(svg, data, size, i, margin, flag) {
+					svg.selectAll("bar")
+					  	.data(data)
+						.enter().append("rect")
+					  	.style("fill", "steelblue")
+					  	.attr("y", function(d) { return y(d.values.plus); })
+					  	.attr("width", x.rangeBand()/size)
+					  	.attr("x", function(d) { return x(d.values.short)+x.rangeBand()*i/size + margin; })
+					  	.attr("height", function(d) { return height - y(d.values.plus); })
+				        .attr('class', flag)
+					  	.on("mouseover", function(d) {
+	                        if(flag == "all") {
+                                d3.select("#tooltip");
+                                document.getElementById("info").innerHTML = '<h1>' + d.key + '</h1>';
+                                d3.selectAll("rect")
+                                    .style("opacity", .3);
+                                filter_data(data, d);
+								d3.selectAll("text.all")
+									.style("opacity",0.0);
+                            }
+						}).on("mouseout", function(d) {
+	                        if(flag == "filter") {
+                                document.getElementById("info").innerHTML = '';
+                                d3.selectAll("rect")
+                                    .style("opacity", 1.0);
+                                d3.selectAll(".filter")
+                                    .remove();
+								d3.selectAll("text.all")
+									.style("opacity",1.0);
+                            }
+						});
+
+				    svg.selectAll("text.top")
+				        .data(data)
+				        .enter().append("text")
+				        .attr("x", function(d) { return x(d.values.short)+x.rangeBand()*i/size + margin; })
+				        .attr("y", function(d, z){
+				        	if (flag == "all") {
+                                return y(d.values.plus) + 11;
+                            } else {
+				        	    return height -10
+							}
+				        } )
+				        .attr("dx", "20")
+				        .attr("dy", ".36em")
+				        .attr("text-anchor", "end")
+				        .attr('class', 'leftscore')
+				        .attr('class', flag)
+				        .style('color', 'white')
+				        .text(function(d) {return d.values.plus});
+				}
+
+				function add_bar_bottom(svg, data, size, i, margin, flag) {
+	  				svg.selectAll("bar")
+					  	.data(data)
+						.enter().append("rect")
+					  	.style("fill", "red")
+					  	.attr("x", function(d) { return x(d.values.short) + x.rangeBand()*i/size + margin; })
+					  	.attr("width", x.rangeBand()/size)
+					  	.attr("y", function(d) { return height + 50; })
+	  					.attr("height", function(d) { return height - y(d.values.minus); })
+				        .attr('class', flag)
+	  					.on("mouseover", function(d) {
+	  					    if(flag == "all") {
+								d3.select("#tooltip");
+								document.getElementById("info").innerHTML = '<h1>' + d.key + '</h1>';
+								d3.selectAll("rect")
+									.style("opacity",.3);
+								d3.selectAll("text.all")
+									.style("opacity",0);
+								filter_data(data, d);
+							}
+						}).on("mouseout", function(d) {
+	                        if(flag == "filter"){
+								document.getElementById("info").innerHTML = '';
+								d3.selectAll("rect")
+									.style("opacity", 1.0);
+								d3.selectAll(".filter")
+									.remove();
+								d3.selectAll("text.all")
+									.style("opacity",1.0);
+							}
+
+						});
+
+				    svg.selectAll("text.bottom")
+				        .data(data)
+				        .enter().append("text")
+				        .attr("x", function(d) { return x(d.values.short)+x.rangeBand()*i/size + margin; })
+				        .attr("y", function(d, z){
+				            if (flag == "all"){
+					            return 2*height - y(d.values.minus) + 40;
+							} else {
+				                return height + 60;
+							}
+				        } )
+				        .attr("dx", "20")
+				        .attr("dy", ".36em")
+				        .attr("text-anchor", "end")
+				        .attr('class', 'leftscore')
+				        .attr('class', flag)
+				        .text(function(d) {return d.values.minus});
+				}
+	        })
+      	</script>
+      	<div id="info">	
+      	</div>
+   	</body>
 </html>
