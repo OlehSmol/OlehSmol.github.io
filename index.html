@@ -123,7 +123,7 @@
 
 				draw_plot(home_teams_scores, guest_team_scores, "plus", "all", 1.0);
 
-				function filter_data(all_data, team) {
+				function filter_data(all_data, team, sign, i) {
 				    var spike1 = home_teams_scores.filter(function (d) {return d.key != team.key;});
 					var spike2 = guest_team_scores.filter(function (d) {return d.key != team.key;});
 					draw_plot(spike1, spike2, "minus", "filter", 0.3);
@@ -134,23 +134,47 @@
 					var _home_teams_scores = _aggregated[0];
 					var _guest_team_scores = _aggregated[1];
 
-				    var spike3 = _home_teams_scores.filter(function (d) {return d.key != team.key;});
-					var spike4 = _guest_team_scores.filter(function (d) {return d.key != team.key;});
-					draw_plot(spike3, spike4, "minus", "filter", 1.0);
+                    var spike5 = _home_teams_scores.filter(function (d) {return d.key == team.key;});
+					var spike6 = _guest_team_scores.filter(function (d) {return d.key == team.key;});
+					draw_plot(spike5, spike6, "plus", "filter", 0.3);
 
-					var _home_teams_scores = _home_teams_scores.filter(function (d) {return d.key == team.key;});
-					var _guest_team_scores = _guest_team_scores.filter(function (d) {return d.key == team.key;});
-					draw_plot(_home_teams_scores, _guest_team_scores, "plus", "filter", 1.0);
-				}
+					if(i == 0){
+					    var spike3 = _home_teams_scores.filter(function (d) {return d.key != team.key;});
+    					if(sign == "top"){
+    					    add_bar_top(svg, spike3, 2.8, 0, 0, "filter", "plus", 1.0, "steelblue", 0);
+                        } else {
+    					    add_bar_bottom(svg, spike3, 2.8, 0, 0, "filter", "minus",  1.0, "red", 0);
+                        }
+                        if(sign == "top"){
+    					    add_bar_top(svg, spike5, 2.8, 0, 0, "filter", "plus", 1.0, "steelblue", 0);
+                        } else {
+    					    add_bar_bottom(svg, spike5, 2.8, 0, 0, "filter", "minus",  1.0, "red", 0);
+                        }
+					} else {
+					    var spike4 = _guest_team_scores.filter(function (d) {return d.key != team.key;});
+					    if(sign == "top"){
+    					    add_bar_top(svg, spike4, 2.8, 1, 0, "filter", "plus", 1.0, "blueviolet", 5);
+                        } else {
+    					    add_bar_bottom(svg, spike4, 2.8, 1, 0, "filter", "minus",  1.0, "darkred", 5);
+                        }
+					    if(sign == "top"){
+    					    add_bar_top(svg, spike6, 2.8, 1, 0, "filter", "plus", 1.0, "blueviolet", 5);
+                        } else {
+    					    add_bar_bottom(svg, spike6, 2.8, 1, 0, "filter", "minus",  1.0, "darkred", 5);
+                        }
+                    }
+
+
+                }
 
 				function draw_plot(data1, data2, sign, flag, opacity){
-					add_bar_top(svg, data1, 2.8, 0, 0, flag, sign, opacity, "steelblue");
-					add_bar_top(svg, data2, 2.8, 1, 5, flag, sign, opacity, "blueviolet");
-					add_bar_bottom(svg, data1, 2.8, 0, 0, flag, sign, opacity, "red");
-					add_bar_bottom(svg, data2, 2.8, 1, 5, flag, sign, opacity, "DarkRed");
+					add_bar_top(svg, data1, 2.8, 0, 0, flag, sign, opacity, "steelblue", 0);
+					add_bar_top(svg, data2, 2.8, 1, 5, flag, sign, opacity, "blueviolet", 0);
+					add_bar_bottom(svg, data1, 2.8, 0, 0, flag, sign, opacity, "red", 0);
+					add_bar_bottom(svg, data2, 2.8, 1, 5, flag, sign, opacity, "DarkRed", 0);
 				}
 
-				function add_bar_top(svg, data, size, i, margin, flag, sign, opacity, color) {
+				function add_bar_top(svg, data, size, i, margin, flag, sign, opacity, color, spikee) {
 					svg.selectAll("bar")
 					  	.data(data)
 						.enter().append("rect")
@@ -162,7 +186,7 @@
 					  		    return y(d.values.minus);
 					  	})
 					  	.attr("width", x.rangeBand()/size)
-					  	.attr("x", function(d) { return x(d.values.short)+x.rangeBand()*i/size + margin; })
+					  	.attr("x", function(d) { return x(d.values.short)+x.rangeBand()*i/size + margin + spikee*i; })
 					  	.attr("height", function(d) {
 					  	    if (sign == "plus"){
 					  	    	return height - y(d.values.plus);
@@ -176,7 +200,7 @@
 	                        if(flag == "all") {
                                 d3.selectAll("rect.plottt")
                                     .style("opacity", 0.0);
-                                filter_data(data, d);
+                                filter_data(data, d, "top", i);
 								d3.selectAll("text.all")
 									.style("opacity",0.0);
                             }
@@ -184,8 +208,7 @@
 	                        if(flag == "filter") {
                                 d3.selectAll("rect")
                                     .style("opacity", 1.0);
-								d3.selectAll("text.filter")
-									.remove();
+                                d3.selectAll("text.filter").remove();
                                 d3.selectAll("rect.filter").remove();
 								d3.selectAll("text.all")
 									.style("opacity",1.0);
@@ -195,7 +218,7 @@
 				    svg.selectAll("text.top")
 				        .data(data)
 				        .enter().append("text")
-				        .attr("x", function(d) { return x(d.values.short)+x.rangeBand()*i/size + margin; })
+				        .attr("x", function(d) { return x(d.values.short)+x.rangeBand()*i/size + margin  + spikee*i; })
 				        .attr("y", function(d, z){
 				            if(sign == "plus"){
 					        	return y(d.values.plus) - 15;
@@ -217,12 +240,12 @@
 						});
 				}
 
-				function add_bar_bottom(svg, data, size, i, margin, flag, sign, opacity, color) {
+				function add_bar_bottom(svg, data, size, i, margin, flag, sign, opacity, color, spikee) {
 				    svg.selectAll("bar")
 					  	.data(data)
 						.enter().append("rect")
 					  	.style("fill", color)
-					  	.attr("x", function(d) { return x(d.values.short) + x.rangeBand()*i/size + margin; })
+					  	.attr("x", function(d) { return x(d.values.short) + x.rangeBand()*i/size + margin + spikee*i; })
 					  	.attr("width", x.rangeBand()/size)
 					  	.attr("y", function(d) { return height + 50; })
 	  					.attr("height", function(d) {
@@ -240,14 +263,13 @@
 									.style("opacity",0);
 								d3.selectAll("text.all")
 									.style("opacity",0);
-								filter_data(data, d);
+								filter_data(data, d, "bot", i);
 							}
 						}).on("mouseout", function(d) {
 	                        if(flag == "filter"){
 								d3.selectAll("rect.filter")
 									.remove();
-								d3.selectAll("text.filter")
-									.remove();
+                                d3.selectAll("text.filter").remove();
 								d3.selectAll("rect")
 									.style("opacity", 1.0);
 								d3.selectAll("text.all")
@@ -259,7 +281,7 @@
 				    svg.selectAll("text.bottom")
 				        .data(data)
 				        .enter().append("text")
-				        .attr("x", function(d) { return x(d.values.short)+x.rangeBand()*i/size + margin; })
+				        .attr("x", function(d) { return x(d.values.short)+x.rangeBand()*i/size + margin  + spikee*i; })
 				        .attr("y", function(d, z){
 				            if(sign == "plus"){
 				            	return 2*height - y(d.values.minus) + 60;
@@ -280,9 +302,9 @@
 							}
 						});
 				}
-				var LABELS = ['Домашні матчі', "Гостьові матчі"];
+				var LABELS = ['Домашні мачі', "Гостьові мачі"];
 				var COLORS1 = ["steelblue", "blueviolet"];
-				var COLORS2 = ["red", "DarkRed"];
+				var COLORS2 = ["DarkRed", "red"];
 				var VALUES = ["val0", "val1"];
 				var color1 = d3.scale.ordinal()
                 .range(COLORS1);
