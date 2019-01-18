@@ -81,9 +81,18 @@
 					})
 					.entries(teams_data);
 					console.log(_home_teams_scores);
+					order = ["Шахтар", "Динамо", "Ворскла", "Зоря", "Маріуполь", "Верес", "Олександрія", "Карпати",
+							"Олімпік", "Зірка", "Чорноморець", "Сталь"];
+
 					_home_teams_scores.forEach(function(d) {
 						d.values.short = d.key.slice(0,8);
 					});
+
+					_home_teams_scores = order.map(function(d) {
+                        return _home_teams_scores[_home_teams_scores.findIndex(i = > i.key == d;
+                        )]
+                    });
+					console.log(_home_teams_scores);
 
 					var _guest_team_scores = d3.nest()
 						.key(function(d) { return d.guest_team; })
@@ -98,6 +107,11 @@
 					_guest_team_scores.forEach(function(d) {
 						d.values.short = d.key.slice(0,8);
 					});
+
+					_guest_team_scores = order.map(function(d) {
+                        return _guest_team_scores[_guest_team_scores.findIndex(i = > i.key == d;
+                        )]
+                    });
 					return [_home_teams_scores, _guest_team_scores];
 				}
 
@@ -349,6 +363,7 @@
       	<div id="info">
 			<p>На графіку зображено кількість забитих/пропущених голів під час Прем'єр Ліги.</p>
 			<p>Якщо навести на графік конкретної команди, можна побачити особистий рахунок з кожною командою</p>
+			<p>Результати посортовані відповідно до зайнтяго місця</p>
       	</div>
    	</body>
 </html>
