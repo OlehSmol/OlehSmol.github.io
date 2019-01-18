@@ -89,7 +89,8 @@
 					});
 
 					_home_teams_scores = order.map(function(d) {
-                        return _home_teams_scores[_home_teams_scores.findIndex(i => i.key == d;)]
+                        return _home_teams_scores[_home_teams_scores.findIndex(i = > i.key == d;
+                        )]
                     });
 					console.log(_home_teams_scores);
 
@@ -108,8 +109,10 @@
 					});
 
 					_guest_team_scores = order.map(function(d) {
-                        return _guest_team_scores[_guest_team_scores.findIndex(i => i.key == d;)]
+                        return _guest_team_scores[_guest_team_scores.findIndex(i = > i.key == d;
+                        )]
                     });
+
 					return [_home_teams_scores, _guest_team_scores];
 				}
 
