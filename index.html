@@ -89,9 +89,10 @@
 					});
 
 					_home_teams_scores = order.map(function(d) {
-                        return _home_teams_scores[_home_teams_scores.findIndex(i = > i.key == d;
-                        )]
-                    });
+						return _home_teams_scores[_home_teams_scores.findIndex(function (i) {
+							return i.key == d;
+                        }];
+					});
 					console.log(_home_teams_scores);
 
 					var _guest_team_scores = d3.nest()
@@ -105,13 +106,15 @@
 						.entries(teams_data);
 
 					_guest_team_scores.forEach(function(d) {
+
 						d.values.short = d.key.slice(0,8);
 					});
 
 					_guest_team_scores = order.map(function(d) {
-                        return _guest_team_scores[_guest_team_scores.findIndex(i = > i.key == d;
-                        )]
-                    });
+						return _guest_team_scores[_guest_team_scores.findIndex(function (i) {
+							return i.key == d;
+                        }];
+					});
 
 					return [_home_teams_scores, _guest_team_scores];
 				}
