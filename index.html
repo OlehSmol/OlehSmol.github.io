@@ -85,7 +85,7 @@
 							"Олімпік", "Зірка", "Чорноморець", "Сталь"];
 
 					_home_teams_scores.forEach(function(d) {
-						d.values.short = d.key.slice(0,8);
+						d.values.short = d.key.slice(0,15);
 					});
 
 					_home_teams_scores = order.map(function(d) {
@@ -107,7 +107,7 @@
 
 					_guest_team_scores.forEach(function(d) {
 
-						d.values.short = d.key.slice(0,8);
+						d.values.short = d.key.slice(0,15);
 					});
 
 					_guest_team_scores = order.map(function(d) {
@@ -128,10 +128,11 @@
 
 				svg.append("g")
 				  	.attr("class", "x axis")
-				  	.attr("transform", "translate(-10," + (height + 10) + ")")
+				  	.attr("transform", "translate(-10," + (height + 15) + ")")
+					.style("font-size", "15px")
 				  	.call(xAxis)
 					.selectAll("text.name")
-					.style("font-size", "34px")
+					.style("font-size", "20px")
 					.style("text-anchor", "start");
 
 				svg.append("g")
@@ -144,36 +145,40 @@
 				function filter_data(all_data, team, sign, i) {
 				    var spike1 = home_teams_scores.filter(function (d) {return d.key != team.key;});
 					var spike2 = guest_team_scores.filter(function (d) {return d.key != team.key;});
-					draw_plot(spike1, spike2, "minus", "filter", 0.3);
-					d3.selectAll("text.filter").style("opacity", 0.0);
+					draw_plot(spike1, spike2, "plus", "filter", 0.3);
 
 				    var data_new = data.filter(function (d) {return d.home_team == team.key || d.guest_team == team.key;});
 				    var _aggregated = aggregate_teams(data_new);
 					var _home_teams_scores = _aggregated[0];
 					var _guest_team_scores = _aggregated[1];
 
+
                     var spike5 = _home_teams_scores.filter(function (d) {return d.key == team.key;});
 					var spike6 = _guest_team_scores.filter(function (d) {return d.key == team.key;});
 					draw_plot(spike5, spike6, "plus", "filter", 0.3);
 
+					d3.selectAll("text.filter").style("opacity", 0.0);
+					d3.selectAll("text.all").style("opacity", 0.0);
 					if(i == 0){
-					    var spike3 = _home_teams_scores.filter(function (d) {return d.key != team.key;});
+					    var spike3 = _guest_team_scores.filter(function (d) {return d.key != team.key;});
     					if(sign == "top"){
-    					    add_bar_top(svg, spike3, 2.8, 0, 0, "filter", "minus", 1.0, "steelblue", 0);
+    					    add_bar_bottom(svg, spike3, 2.8, 1, 0, "filter", "plus", 1.0, "darkred", 5);
                         } else {
-    					    add_bar_bottom(svg, spike3, 2.8, 0, 0, "filter", "minus",  1.0, "red", 0);
+    					    add_bar_top(svg, spike3, 2.8, 1, 0, "filter", "plus",  1.0, "blueviolet", 5);
                         }
+
                         if(sign == "top"){
     					    add_bar_top(svg, spike5, 2.8, 0, 0, "filter", "plus", 1.0, "steelblue", 0);
                         } else {
     					    add_bar_bottom(svg, spike5, 2.8, 0, 0, "filter", "plus",  1.0, "red", 0);
                         }
+
 					} else {
-					    var spike4 = _guest_team_scores.filter(function (d) {return d.key != team.key;});
+					    var spike4 = _home_teams_scores.filter(function (d) {return d.key != team.key;});
 					    if(sign == "top"){
-    					    add_bar_top(svg, spike4, 2.8, 1, 0, "filter", "minus", 1.0, "blueviolet", 5);
+    					    add_bar_bottom(svg, spike4, 2.8, 0, 0, "filter", "plus", 1.0, "red", 0);
                         } else {
-    					    add_bar_bottom(svg, spike4, 2.8, 1, 0, "filter", "minus",  1.0, "darkred", 5);
+    					    add_bar_top(svg, spike4, 2.8, 0, 0, "filter", "plus",  1.0, "steelblue", 0);
                         }
 					    if(sign == "top"){
     					    add_bar_top(svg, spike6, 2.8, 1, 0, "filter", "plus", 1.0, "blueviolet", 5);
@@ -312,7 +317,7 @@
 				        .attr("dy", ".56em")
 				        .attr("text-anchor", "end")
 				        .attr('class', flag)
-				        .text(function(d) {
+                        .text(function(d) {
 				            if(sign =="plus"){
 				                return d.values.minus
 							} else {
